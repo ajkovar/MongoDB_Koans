@@ -4,12 +4,14 @@ Written for Chicago Ruby by Ginny Hendry and Nola Stowe
 
 Based on http://github.com/edgecase/ruby_koans
 
-Requires: 	Ruby 1.8.x or later
-           	Rake (any version)
-           	MongoDB
-           	gem install mongo
+Requires: 
+  Ruby 1.8.x or later
+  Rake (any version)
+  MongoDB
+  gem install mongo
 
-Recommended:	gem install mongo_ext   
+Recommended:	
+  gem install mongo_ext   
 
            
 
