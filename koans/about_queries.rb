@@ -30,28 +30,30 @@ class AboutQueries < EdgeCase::Koan
   end
   
   def test_find_all
-    assert_not_equal @people.count, @people.find.count, "Find all wrong number returned"
+    assert_equal @people.count, @people.find.count, "Find all wrong number returned"
   end
 
   def test_find_by_name
-    assert_equal 1, @people.find(:name => 'Adam').count, "Count of name = Ada is wrong"
+    assert_equal 1, @people.find(:name => 'Ada').count, "Count of name = Ada is wrong"
   end
   
   def test_create_index
-    assert_equal __, @people.index_information.count, "Number of indexes is wrong"
+    assert_equal 1, @people.index_information.count, "Number of indexes is wrong"
     @people.create_index('name')
-    assert_equal __, @people.index_information.count, "Number of indexes is wrong"
+    assert_equal 2, @people.index_information.count, "Number of indexes is wrong"
     #Why is there one index before we added our first index?
+    #Because of ObjectID?
   end  
 
   def test_find_by_index_field
+    assert @people.find(:active => true).explain['nscanned'] == @people.count
     @people.create_index('active')
-    assert_equal __, @people.find(:active => true).count, "Count of active is wrong"
-    assert @people.find(:active => true).explain['nscanned'] == @people.count, "Find on indexed field read too many documents"
+    assert_equal 2, @people.find(:active => true).count, "Count of active is wrong"
+    assert @people.find(:active => true).explain['nscanned'] < @people.count, "Find on indexed field read too many documents"
   end
 
   def test_find_by_name_and_boolean
-    assert_equal 1, @books.find({:name => 'Refactoring', :hard_cover => __}).count, "Count for query on two fields is wrong"
+    assert_equal 1, @books.find({:name => 'Refactoring', :hard_cover => true}).count, "Count for query on two fields is wrong"
   end
 
   def test_sorted_query    
